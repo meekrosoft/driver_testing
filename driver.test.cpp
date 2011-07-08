@@ -1,6 +1,7 @@
 #if 0
 extern "C"{
 #include "driver.h"
+#include "registers.h"
 }
 #include <igloo/igloo.h>
 #include <map>
@@ -34,19 +35,19 @@ Context(AHardwareDriver)
 {
 	Spec(WritesDataToCorrectRegister)
 	{
-	    write_to_driver(0x34);
+	    driver_write(0x34);
 		Assert::That(writeCalled, Equals(1));
 		Assert::That(writeVal, Equals(0x34));
-		Assert::That(writeRegister, Equals(0xFFAAu));
+		Assert::That(writeRegister, Equals(DRIVER_OUTPUT_REGISTER));
 	}
 
 	Spec(ReadsDataFromCorrectRegister)
 	{
 	    readVal = 0x55;
-	    uint8_t returnedValue = read_from_driver();
+	    uint8_t returnedValue = driver_read();
 	    Assert::That(readCalled, Equals(1));
 	    Assert::That(returnedValue, Equals(readVal));
-	    Assert::That(readRegister, Equals(0xFFABu));
+	    Assert::That(readRegister, Equals(DRIVER_INPUT_REGISTER));
 	}
 
 };

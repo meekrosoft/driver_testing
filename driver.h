@@ -4,7 +4,8 @@
 
 #include <stdint.h>
 
-void write_to_driver(uint8_t val);
-uint8_t read_from_driver();
+void driver_write(uint8_t val);
+uint8_t driver_read();
+void driver_init_device();
 
 #endif /*include guard*/

@@ -1,16 +1,24 @@
 
 
-#include "HardwareAbstraction.h"
+#include "hardware_abstraction.h"
+#include "registers.h"
 
-#define DRIVER_OUTPUT_REGISTER 0xFFAA
-#define DRIVER_INPUT_REGISTER  0XFFAB
-
-void write_to_driver(uint8_t val)
+void driver_write(uint8_t val)
 {
     IO_MEM_WR8(DRIVER_OUTPUT_REGISTER, val);
 }
 
-uint8_t read_from_driver()
+uint8_t driver_read()
 {
     return IO_MEM_RD8(DRIVER_INPUT_REGISTER);
+}
+
+void driver_init_device()
+{
+    uint8_t hw_version = IO_MEM_RD8(HARDWARE_VERSION_REGISTER);
+    if(HARDWARE_REV_B == hw_version)
+    {
+        IO_MEM_WR8(DRIVER_PERIPHERAL_ENABLE_REG, 1);
+    }
+    IO_MEM_WR8(DRIVER_PERIPHERAL_INITIALIZE_REG, 1);
 }
